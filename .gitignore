@@ -16,3 +16,4 @@
 
 # Project ignored files
 config/*.yml
+coverage/*
