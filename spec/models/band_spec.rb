@@ -39,6 +39,13 @@ RSpec.describe Band, type: :model do
 
       expect(band.errors[:site]).to include("can't be blank")
     end
+
+    it 'has invalid site url' do
+      band = build(:band, site: "google")
+      band.valid?
+
+      expect(band.errors[:site]).to include("must be a valid URL")
+    end
   end
 
 end

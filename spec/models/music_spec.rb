@@ -28,5 +28,4 @@ RSpec.describe Music, type: :model do
       expect(music.errors[:name_author]).to include("can't be blank")
     end
   end
-
 end
