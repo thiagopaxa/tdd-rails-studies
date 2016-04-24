@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160422054225) do
+ActiveRecord::Schema.define(version: 20160424022852) do
 
   create_table "bands", force: :cascade do |t|
     t.string   "name",          limit: 255
@@ -30,6 +30,16 @@ ActiveRecord::Schema.define(version: 20160422054225) do
 
   add_index "favorites", ["todo_id"], name: "index_favorites_on_todo_id", using: :btree
   add_index "favorites", ["user_id"], name: "index_favorites_on_user_id", using: :btree
+
+  create_table "musics", force: :cascade do |t|
+    t.string   "title",       limit: 255
+    t.string   "name_author", limit: 255
+    t.integer  "band_id",     limit: 4
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "musics", ["band_id"], name: "index_musics_on_band_id", using: :btree
 
   create_table "tasks", force: :cascade do |t|
     t.string   "body",       limit: 255
@@ -71,6 +81,7 @@ ActiveRecord::Schema.define(version: 20160422054225) do
 
   add_foreign_key "favorites", "todos"
   add_foreign_key "favorites", "users"
+  add_foreign_key "musics", "bands"
   add_foreign_key "tasks", "todos"
   add_foreign_key "todos", "users"
 end
