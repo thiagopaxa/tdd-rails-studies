@@ -11,41 +11,24 @@ RSpec.describe Band, type: :model do
   it { is_expected.to have_many(:musics) }
 
 
-  # this is the test of validations without shoulda matchers
-  context "is valid when" do
-    it 'has a valid factory' do
-      expect(build(:band)).to be_valid
-    end
+  it 'has invalid site url' do
+    band = build(:band, site: "google")
+    band.valid?
+
+    expect(band.errors[:site]).to include("must be a valid URL")
   end
 
-  context "is invalid when" do
-    it 'has no name' do
-      band = build(:band, name: nil)
-      band.valid?
+  context '.in_genre scope' do
+    it 'must select all songs by a single genre' do
+      misfits   = create(:band, musical_genre: "rock", name: "misfits")
+      megadeth  = create(:band, musical_genre: "rock", name: "megadeth")
+      beyonce   = create(:band, musical_genre: "pop",  name: "beyonce")
 
-      expect(band.errors[:name]).to include("can't be blank")
-    end
 
-    it 'has no musical_genre' do
-      band = build(:band, musical_genre: nil)
-      band.valid?
+      rock_bands = Band.in_genre("rock")
 
-      expect(band.errors[:musical_genre]).to include("can't be blank")
-    end
-
-    it 'has no site' do
-      band = build(:band, site: nil)
-      band.valid?
-
-      expect(band.errors[:site]).to include("can't be blank")
-    end
-
-    it 'has invalid site url' do
-      band = build(:band, site: "google")
-      band.valid?
-
-      expect(band.errors[:site]).to include("must be a valid URL")
+      expect(rock_bands).not_to include(beyonce)
+      expect(rock_bands).to include(misfits, megadeth)
     end
   end
-
 end

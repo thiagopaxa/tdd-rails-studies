@@ -3,4 +3,8 @@ class Band < ActiveRecord::Base
   validates :site, url: true
 
   has_many :musics
+
+  scope :in_genre, lambda { |genre|
+    where(musical_genre: genre)
+  }
 end
