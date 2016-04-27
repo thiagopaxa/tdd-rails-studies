@@ -69,6 +69,6 @@ class BandsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def band_params
-      params.fetch(:band, {})
+      params.require(:band).permit(:name, :musical_genre, :site)
     end
 end
